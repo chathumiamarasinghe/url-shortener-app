@@ -36,4 +36,17 @@ export const urlService = {
       throw new Error(error.response?.data?.message || 'Failed to delete URL');
     }
   },
+
+  // API endpoint for Update URL
+editUrl: async (id, originalUrl, expiresAt) => {
+  try {
+    const response = await axios.put(`${API_URL}/${id}`, {
+      originalUrl,
+      expiresAt,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update URL');
+  }
+},
 };
