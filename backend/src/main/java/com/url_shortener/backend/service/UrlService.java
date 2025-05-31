@@ -90,4 +90,24 @@ public class UrlService {
         urlMappingRepository.deleteById(id);
     }
 
+    public UrlShortenResponse updateShortenedUrl(Long id, UrlShortenRequest request) {
+        UrlMapping existing = urlMappingRepository.findById(id)
+                .orElseThrow(() -> new UrlException("URL not found"));
+
+        validateUrl(request.getOriginalUrl());
+
+        existing.setOriginalUrl(request.getOriginalUrl());
+        existing.setExpiresAt(request.getExpiresAt());
+
+        urlMappingRepository.save(existing);
+
+        UrlShortenResponse response = new UrlShortenResponse();
+        response.setOriginalUrl(existing.getOriginalUrl());
+        response.setShortUrl(baseUrl + "/" + existing.getShortCode());
+        response.setExpiresAt(existing.getExpiresAt());
+
+        return response;
+    }
+
+
 } 

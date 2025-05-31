@@ -85,7 +85,13 @@ export default function ShortenUrlModal({ open, onClose, onSubmit, error }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="inherit">Cancel</Button>
-        <Button onClick={handleSubmit} variant="contained">Shorten URL</Button>
+        <Button onClick={handleSubmit} variant="contained" sx={{
+    bgcolor: 'black',
+    color: 'white',
+    '&:hover': {
+      bgcolor: '#333',
+    },
+  }}>Shorten URL</Button>
       </DialogActions>
     </Dialog>
   );
