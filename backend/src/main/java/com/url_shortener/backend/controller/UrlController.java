@@ -67,5 +67,22 @@ public class UrlController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateShortenedUrl(@PathVariable Long id, @Valid @RequestBody UrlShortenRequest request) {
+        try {
+            UrlShortenResponse response = urlService.updateShortenedUrl(id, request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (UrlException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "An unexpected error occurred");
+            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
 } 
