@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.net.URL;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -57,16 +58,36 @@ public class UrlService {
     }
 
     private void validateUrl(String url) {
+        String trimmedUrl = url.trim();
+        System.out.println("Validating URL: '" + trimmedUrl + "'");
         try {
-            new URL(url);
+            URL parsedUrl = new URL(trimmedUrl);
+            String protocol = parsedUrl.getProtocol();
+            if (!protocol.equals("http") && !protocol.equals("https")) {
+                throw new UrlException("Only HTTP and HTTPS protocols are supported");
+            }
         } catch (Exception e) {
             throw new UrlException("Invalid URL format");
         }
     }
+
+
 
     private String generateShortCode() {
         return Base64.getUrlEncoder().withoutPadding()
                 .encodeToString(UUID.randomUUID().toString().getBytes())
                 .substring(0, 8);
     }
+
+    public List<UrlMapping> getAllUrls() {
+        return urlMappingRepository.findAll();
+    }
+
+    public void deleteUrl(Long id) {
+        if (!urlMappingRepository.existsById(id)) {
+            throw new UrlException("URL not found");
+        }
+        urlMappingRepository.deleteById(id);
+    }
+
 } 

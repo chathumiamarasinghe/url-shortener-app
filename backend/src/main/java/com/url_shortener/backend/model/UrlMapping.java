@@ -34,4 +34,4 @@ public class UrlMapping {
             expiresAt = createdAt.plusDays(30); // Default expiration of 30 days
         }
     }
-}
+} 
