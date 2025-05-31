@@ -55,4 +55,17 @@ public class UrlController {
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllUrls() {
+        return ResponseEntity.ok(urlService.getAllUrls());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUrl(@PathVariable Long id) {
+        urlService.deleteUrl(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 } 
